@@ -92,14 +92,17 @@ class OwnerController {
         if (results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
+            logger.debug("No owners found ...");
             lookingForLostOwners();
             return "owners/findOwners";
         } else if (results.size() == 1) {
             // 1 owner found
+            logger.debug("1 owner found ...");
             owner = results.iterator().next();
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
+            logger.debug("More than 1 owner found ...");
             model.put("selections", results);
             return "owners/ownersList";
         }
@@ -142,7 +145,7 @@ class OwnerController {
     }
 
     private void lookingForLostOwners(){
-      logger.debug("in lookingForLostOwners...");
+      logger.debug("Looking for lost owners ...");
       try
       {
           Thread.sleep(1500);
