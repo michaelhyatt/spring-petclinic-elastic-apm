@@ -29,6 +29,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
 
+import java.lang.Thread;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
@@ -38,6 +42,7 @@ import java.util.Map;
 @Controller
 class OwnerController {
 
+    private static Logger logger = LoggerFactory.getLogger(OwnerController.class);
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
     private final OwnerRepository owners;
 
@@ -87,6 +92,7 @@ class OwnerController {
         if (results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
+            lookingForLostOwners();
             return "owners/findOwners";
         } else if (results.size() == 1) {
             // 1 owner found
@@ -128,6 +134,23 @@ class OwnerController {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.owners.findById(ownerId));
         return mav;
+    }
+
+    @GetMapping("/nopet")
+    public String error() {
+        throw new RuntimeException("No Pet exception");
+    }
+
+    private void lookingForLostOwners(){
+      logger.debug("in lookingForLostOwners...");
+      try
+      {
+          Thread.sleep(1500);
+      }
+      catch(InterruptedException ex)
+      {
+          Thread.currentThread().interrupt();
+      }
     }
 
 }
