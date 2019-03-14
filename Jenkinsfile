@@ -12,13 +12,16 @@ pipeline {
             }
         }
         stage('Deploy'){
+
           steps {
-              pushToCloudFoundry(
-              target: 'api.system.pcf-full.bvader.net',
-              organization: 'elastic-demo-org',
-              cloudSpace: 'demo-space-sandbox',
-              credentialsId: 'pcfcreds'
-              )
+              timeout(time: 240, unit: 'SECONDS') {
+                pushToCloudFoundry(
+                target: 'api.system.pcf-full.bvader.net',
+                organization: 'elastic-demo-org',
+                cloudSpace: 'demo-space-sandbox',
+                credentialsId: 'pcfcreds'
+                )
+              }
             }
         }
     }
