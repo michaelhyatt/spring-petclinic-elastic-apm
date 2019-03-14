@@ -8,17 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                sh 'mvn clean package -Dmaven.tests.skip=true'
             }
         }
         stage('Deploy'){
@@ -27,7 +17,7 @@ pipeline {
               target: 'api.system.pcf-full.bvader.net',
               organization: 'elastic-demo-org',
               cloudSpace: 'demo-space-sandbox',
-              credentialsId: 'pcfcreds',
+              credentialsId: 'pcfcreds'
               )
             }
         }
