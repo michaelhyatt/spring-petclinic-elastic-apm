@@ -21,5 +21,13 @@ pipeline {
                 }
             }
         }
+        stage('Deploy'){
+          pushToCloudFoundry(
+            target: 'api.system.pcf-full.bvader.net',
+            organization: 'elastic-demo-org',
+            cloudSpace: 'demo-space-sandbox',
+            credentialsId: 'pcfcreds',
+            )
+        }
     }
 }
