@@ -3,3 +3,4 @@ applications:
 - name: spring-petclinic-monolith
   memory: 1G
   path: ./target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
+  host: spring-petclinic-bvader
