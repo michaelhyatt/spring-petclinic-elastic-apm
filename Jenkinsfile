@@ -5,6 +5,9 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    environment {
+        PCF_CREDS = credentials('pcfcreds')
+    }
     stages {
         stage('Build') {
             steps {
@@ -12,16 +15,26 @@ pipeline {
             }
         }
         stage('Deploy'){
+            steps {
+               sh 'cf login -u $PCF_CREDS_USR -p $PCF_CREDS_PSW -a api.system.pcf-full.bvader.net -o elastic-demo-org -s demo-space-sandbox'
+               sh 'cf push'
+            }
+        }
+    }
+}
 
-          steps {
-              timeout(time: 240, unit: 'SECONDS') {
-                pushToCloudFoundry(
-                target: 'api.system.pcf-full.bvader.net',
-                organization: 'elastic-demo-org',
-                cloudSpace: 'demo-space-sandbox',
-                credentialsId: 'pcfcreds'
-                )
-              }
+
+
+pipeline {
+    agent any
+    environment {
+        PCF_CREDS = credentials('pcfcreds')
+
+    }
+    stages {
+        stage('Example') {
+            steps {
+               sh 'cf login -u $PCF_CREDS_USR -p $PCF_CREDS_PSW -a api.system.pcf-full.bvader.net -o elastic-demo-org -s demo-space-sandbox'
             }
         }
     }
