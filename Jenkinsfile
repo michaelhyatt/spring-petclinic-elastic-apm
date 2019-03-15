@@ -15,6 +15,7 @@ pipeline {
             }
         }
         stage('Deploy'){
+            agent any
             steps {
                sh 'cf login -u $PCF_CREDS_USR -p $PCF_CREDS_PSW -a api.system.pcf-full.bvader.net -o elastic-demo-org -s demo-space-sandbox'
                sh 'cf push'
