@@ -148,7 +148,7 @@ class OwnerController {
       logger.debug("Looking for lost owners ...");
       try
       {
-          Thread.sleep(5000);
+          Thread.sleep(2500);
       }
       catch(InterruptedException ex)
       {
