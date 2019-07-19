@@ -1,6 +1,6 @@
 <!doctype html>
 <html th:fragment="layout (template, menu)">
-<script th:src="@{/resources/js/elastic-apm-js-base.umd.min.js}"></script>
+<script th:src="@{/resources/js/elastic-apm-opentracing.umd.js}"></script>
  <script th:inline="javascript">
    elasticApm.init({
      serviceName: 'petclinic-frontend',
