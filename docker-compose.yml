@@ -42,7 +42,7 @@ services:
     container_name: apm_server
     ports: ['8200:8200']
     networks: ['stack']
-    command: --strict.perms=false -e  # -e flag to log to stderr and disable syslog/file output
+    command: -E apm-server.rum.enabled=true --strict.perms=false -e  # -e flag to log to stderr and disable syslog/file output
     depends_on: ['elasticsearch', 'kibana']
 
   heartbeat:
@@ -64,6 +64,16 @@ services:
       - ./tmp:/tmp:rw
       - ./target:/tmp/target:ro
     command: ["java", "-Delastic.apm.server_urls=http://apm-server:8200", "-Delastic.apm.application_packages=org.springframework.samples", "-Delastic.apm.service_name=spring-petclinic-monolith" ,"-javaagent:/tmp/elasticapmagent.jar", "-jar", "/tmp/target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"]
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks: ['stack']
+    ports: ['8081:80']
+    depends_on: ["petclinic", "apm-server"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
 
 networks: {stack: {}}
 # use docker volume to persist ES data outside of a container.
