@@ -4,11 +4,11 @@
  <script th:inline="javascript">
    elasticApm.init({
      serviceName: 'petclinic-frontend',
-     serverUrl: 'http://localhost:8081',
+     serverUrl: 'http://localhost',
      serviceVersion: 'v1.0',
      pageLoadTransactionName: "web-page-load",
      distributedTracing: true,
-     distributedTracingOrigins: [],
+     distributedTracingOrigins: ["*"],
      // pageLoadTraceId: "123",
      // pageLoadSpanId: "456",
      pageLoadSampled: true
