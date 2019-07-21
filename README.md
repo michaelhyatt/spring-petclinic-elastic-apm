@@ -11,7 +11,7 @@ Runs locally the following components:
 * Heartbeat that is used as load generator and for health checks.
 
 ## Prerequisites
-Docker destop with docker-compose
+Docker destop with docker-compose, maven+java
 
 ## To run
 Change TAG value to the latest and greatest version of Elastic stack
