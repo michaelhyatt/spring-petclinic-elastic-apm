@@ -9,7 +9,6 @@ target/*
 .attach_pid*
 .idea
 *.iml
-/target
 .sts4-cache/
 .vscode/*
 !.vscode/settings.json
@@ -18,3 +17,4 @@ target/*
 !.vscode/extensions.json
 _site/
 /tmp/
+/target/
