@@ -11,12 +11,13 @@ Runs locally the following components:
 * Heartbeat that is used as load generator and for health checks.
 
 ## Prerequisites
-Docker destop with docker-compose
+Docker destop with docker-compose, maven+java
 
 ## To run
 Change TAG value to the latest and greatest version of Elastic stack
 ```bash
 $ git clone https://github.com/michaelhyatt/spring-petclinic-elastic-apm
 $ cd spring-petclinic-elastic-apm
+$ ./mvnw clean package -DskipTests
 $ TAG=7.2.0 docker-compose up
 ```
