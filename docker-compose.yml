@@ -74,6 +74,3 @@ services:
 
 
 networks: {stack: {}}
-# use docker volume to persist ES data outside of a container.
-#volumes:
-#  es_data:

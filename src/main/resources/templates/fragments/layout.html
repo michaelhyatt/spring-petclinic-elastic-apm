@@ -2,22 +2,17 @@
 <html th:fragment="layout (template, menu)">
 <script th:src="@{/resources/js/elastic-apm-rum.umd.js}"></script>
  <script th:inline="javascript">
-    var parts = window.location.pathname.split('/');
-    var pageName = window.location.pathname;
-    if (parts.length > 0) {
-      pageName = parts[1]
-    }
+    var pageName = window.location.pathname.replace(/[0-9]+/gi, "X");
     elasticApm.init({
      serviceName: 'petclinic-frontend',
      serverUrl: 'http://localhost:80/',
-     distributedTracingOrigins: ['http://localhost', 'http://127.0.0.1', 'http://localhost/', 'http://127.0.0.1/', 'http://localhost:80', 'http://localhost:80/', 'http://nginx'],
+     distributedTracingOrigins: [],
      pageLoadTransactionName: pageName,
      active: true,
      pageLoadTraceId: [[${transaction.traceId}]],
      pageLoadSpanId: [[${transaction.ensureParentId()}]],
      pageLoadSampled: [[${transaction.sampled}]],
      distributedTracing: true,
-     logLevel: "trace",
     })
  var apmVar = elasticApm.setInitialPageLoadName('Page Load : ' + window.location.pathname)
  </script>
