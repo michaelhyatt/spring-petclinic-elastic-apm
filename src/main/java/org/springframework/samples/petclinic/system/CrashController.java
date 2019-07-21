@@ -17,6 +17,10 @@ package org.springframework.samples.petclinic.system;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Transaction;
 
 /**
  * Controller used to showcase what happens when an exception is thrown
@@ -32,6 +36,11 @@ class CrashController {
     public String triggerException() {
         throw new RuntimeException("Expected: controller used to showcase what "
                 + "happens when an exception is thrown");
+    }
+    
+    @ModelAttribute("transaction")
+    public Transaction transaction() {
+        return ElasticApm.currentTransaction();
     }
 
 }

@@ -15,15 +15,23 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.samples.petclinic.visit.Visit;
 import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-import java.util.Map;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Transaction;
 
 /**
  * @author Juergen Hoeller
@@ -49,6 +57,11 @@ class VisitController {
         dataBinder.setDisallowedFields("id");
     }
 
+    @ModelAttribute("transaction")
+    public Transaction transaction() {
+        return ElasticApm.currentTransaction();
+    }
+    
     /**
      * Called before each and every @RequestMapping annotated method.
      * 2 goals:

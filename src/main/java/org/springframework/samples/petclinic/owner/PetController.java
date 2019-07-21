@@ -15,15 +15,24 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.util.Collection;
+
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
-import java.util.Collection;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Transaction;
 
 /**
  * @author Juergen Hoeller
@@ -93,6 +102,11 @@ class PetController {
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
+    @ModelAttribute("transaction")
+    public Transaction transaction() {
+        return ElasticApm.currentTransaction();
+    }
+    
     @PostMapping("/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
         if (result.hasErrors()) {

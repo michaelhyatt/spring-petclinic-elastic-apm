@@ -1,18 +1,24 @@
 <!doctype html>
 <html th:fragment="layout (template, menu)">
-<script th:src="@{/resources/js/elastic-apm-opentracing.umd.js}"></script>
+<script th:src="@{/resources/js/elastic-apm-rum.umd.js}"></script>
  <script th:inline="javascript">
-   elasticApm.init({
+    var parts = window.location.pathname.split('/');
+    var pageName = window.location.pathname;
+    if (parts.length > 0) {
+      pageName = parts[1]
+    }
+    elasticApm.init({
      serviceName: 'petclinic-frontend',
-     serverUrl: 'http://localhost',
-     serviceVersion: 'v1.0',
-     pageLoadTransactionName: "web-page-load",
+     serverUrl: 'http://localhost:80/',
+     distributedTracingOrigins: ['http://localhost', 'http://127.0.0.1', 'http://localhost/', 'http://127.0.0.1/', 'http://localhost:80', 'http://localhost:80/', 'http://nginx'],
+     pageLoadTransactionName: pageName,
+     active: true,
+     pageLoadTraceId: [[${transaction.traceId}]],
+     pageLoadSpanId: [[${transaction.ensureParentId()}]],
+     pageLoadSampled: [[${transaction.sampled}]],
      distributedTracing: true,
-     distributedTracingOrigins: ["*"],
-     // pageLoadTraceId: "123",
-     // pageLoadSpanId: "456",
-     pageLoadSampled: true
-   })
+     logLevel: "trace",
+    })
  var apmVar = elasticApm.setInitialPageLoadName('Page Load : ' + window.location.pathname)
  </script>
 

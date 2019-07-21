@@ -15,11 +15,15 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Map;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Transaction;
 
 /**
  * @author Juergen Hoeller
@@ -34,6 +38,11 @@ class VetController {
 
     public VetController(VetRepository clinicService) {
         this.vets = clinicService;
+    }
+    
+    @ModelAttribute("transaction")
+    public Transaction transaction() {
+        return ElasticApm.currentTransaction();
     }
 
     @GetMapping("/vets.html")

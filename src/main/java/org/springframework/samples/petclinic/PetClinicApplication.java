@@ -19,6 +19,8 @@ package org.springframework.samples.petclinic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import co.elastic.apm.attach.ElasticApmAttacher;
+
 /**
  * PetClinic Spring Boot Application.
  *
@@ -28,8 +30,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PetClinicApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PetClinicApplication.class, args);
-    }
+	public static void main(String[] args) {
+		ElasticApmAttacher.attach();
+		SpringApplication.run(PetClinicApplication.class, args);
+	}
 
 }

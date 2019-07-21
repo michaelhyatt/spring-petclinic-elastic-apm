@@ -20,12 +20,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${TAG}
     container_name: elasticsearch
-    ports: ['9200:9200']
     networks: ['stack']
-    # volumes:
-    #   - ./snapshots:/snapshots:rw
     environment:
-      # - path.repo=/snapshots
       - node.name=elastic-node-1
       - cluster.initial_master_nodes=elastic-node-1
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -40,9 +36,8 @@ services:
   apm-server:
     image: docker.elastic.co/apm/apm-server:${TAG}
     container_name: apm_server
-    ports: ['8200:8200']
     networks: ['stack']
-    command: -E apm-server.rum.enabled=true --strict.perms=false -e  # -e flag to log to stderr and disable syslog/file output
+    command: -E apm-server.rum.enabled=true -e  # -e flag to log to stderr and disable syslog/file output
     depends_on: ['elasticsearch', 'kibana']
 
   heartbeat:
@@ -55,15 +50,18 @@ services:
       - output.elasticsearch.hosts=["elasticsearch:9200"]
 
   petclinic:
-    image: openjdk:8-jre-alpine
+    image: openjdk:8-jdk-alpine
     container_name: petclinic
     networks: ['stack']
-    ports: ['8080:8080']
     volumes:
-      - ./elastic-apm-agent-1.7.0.jar:/tmp/elasticapmagent.jar:ro
       - ./tmp:/tmp:rw
       - ./target:/tmp/target:ro
-    command: ["java", "-Delastic.apm.server_urls=http://apm-server:8200", "-Delastic.apm.application_packages=org.springframework.samples", "-Delastic.apm.service_name=spring-petclinic-monolith" ,"-javaagent:/tmp/elasticapmagent.jar", "-jar", "/tmp/target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"]
+    command: ["java",
+      "-Delastic.apm.server_urls=http://apm-server:8200",
+      "-Delastic.apm.application_packages=org.springframework.samples",
+      "-Delastic.apm.service_name=spring-petclinic-monolith",
+      "-XX:+StartAttachListener",
+      "-jar", "/tmp/target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"]
 
   nginx:
     image: nginx:latest
