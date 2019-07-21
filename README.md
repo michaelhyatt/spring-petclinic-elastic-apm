@@ -1,7 +1,14 @@
 # spring-petclinic-elastic-apm
-Spring pet clinic instrumented with Elastic APM, Distributed tracing, heartbeat and more.
+Spring pet clinic instrumented with Elastic APM, Distributed tracing, heartbeat and more using docker-compose.
 
 ## Intro
+Runs locally the following components:
+* petclinic Spring Boot app instrumented with Elastic Java and RUM APM agents.
+* Nginx as reverse proxy
+* Elastic APM server
+* Elasticsearch
+* Kibana
+* Heartbeat that is used as load generator and for health checks.
 
 ## Prerequisites
 Docker destop with docker-compose
