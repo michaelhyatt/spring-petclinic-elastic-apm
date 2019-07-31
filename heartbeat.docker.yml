@@ -6,7 +6,7 @@ heartbeat.monitors:
     - http://kibana:5601
     - http://apm_server:8200
     - http://petclinic:8080/owners/2
-    - http://nginx/owners/1
+    - http://nginx/owners/1?synthetic=true
 
 - type: icmp
   schedule: '@every 5s'
@@ -15,6 +15,7 @@ heartbeat.monitors:
     - kibana
     - apm_server
     - nginx
+    - petclinic
 
 processors:
 - add_cloud_metadata: ~
