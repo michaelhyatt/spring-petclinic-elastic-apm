@@ -29,7 +29,7 @@
 
 		<jacoco.version>0.8.2</jacoco.version>
 
-		<elastic-apm.version>1.8.0</elastic-apm.version>
+		<elastic-apm.version>1.9.0</elastic-apm.version>
 	</properties>
 
 	<dependencies>
@@ -135,7 +135,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties 
+						<!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties
 							file is present -->
 						<goals>
 							<goal>build-info</goal>
@@ -171,7 +171,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Spring Boot Actuator displays build-related information if a git.properties 
+			<!-- Spring Boot Actuator displays build-related information if a git.properties
 				file is present at the classpath -->
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
